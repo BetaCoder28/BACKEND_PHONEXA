@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// users - Tabla de usuarios
+model User {
+  idUser         Int      @id @default(autoincrement()) @map("idUser")
+  name           String   @db.VarChar(255) 
+  email          String   @unique @db.VarChar(255)
+  password       String   @db.VarChar(255)
+  isPremiumUser  String?  @db.VarChar(10) 
+
+}
+
+// flashCards - Tabla principal para las flashcards
+model FlashCard {
+  idFlashCards   Int       @id @default(autoincrement()) @map("idFlashCards")
+  phrase         String    @db.VarChar(255)
+  imageId        Int?      
+  soundId        Int?      
+
+  // Relaciones
+  image          Image?    @relation(fields: [imageId], references: [idImage])
+  sound          Sound?    @relation(fields: [soundId], references: [idSound])
+
+  @@map("flashCards")
+}
+
+// images - Tabla para almacenar la URL de las imágenes
+model Image {
+  idImage        Int       @id @default(autoincrement()) @map("idImage")
+  imageUrl       String    @db.VarChar(2048) 
+  
+  flashCards     FlashCard[]
+
+  @@map("images")
+}
+
+// sounds - Tabla para almacenar la URL de los sonidos
+model Sound {
+  idSound        Int       @id @default(autoincrement()) @map("idSound")
+  soundUrl       String    @db.VarChar(2048) 
+
+  flashCards     FlashCard[]
+
+  @@map("sounds")
+}
+
+// quizz - Tabla para preguntas de quiz
+model Quizz {
+  idQuizz        Int       @id @default(autoincrement()) @map("idQuizz")
+  question       String    @db.Text 
+  answer         String    @db.Text 
+
+  @@map("quizz")
+}
