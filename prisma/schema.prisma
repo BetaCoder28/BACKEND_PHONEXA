@@ -54,8 +54,18 @@ model Sound {
 // quizz - Tabla para preguntas de quiz
 model Quizz {
   idQuizz        Int       @id @default(autoincrement()) @map("idQuizz")
-  question       String    @db.Text 
-  answer         String    @db.Text 
+  question       String    @db.Text
+  answer         String    @db.Text
 
   @@map("quizz")
+}
+
+// aeronauticalAlphabetCards - Tabla para tarjetas del alfabeto aeronáutico
+model AeronauticalAlphabetCard {
+  id                Int     @id @default(autoincrement()) @map("id")
+  text              String  @db.VarChar(255) // Palabra del alfabeto
+  imageUrl          String? @db.VarChar(2048) // URL de la imagen
+  pronunciation     String? @db.VarChar(255) // Manera de pronunciarlo
+
+  @@map("aeronauticalAlphabetCards")
 }
