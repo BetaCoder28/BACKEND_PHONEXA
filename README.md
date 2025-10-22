@@ -105,3 +105,15 @@ NODE_ENV= "production"
 JWT_SECRET= "unaclavemuylargayseguraparaeltokenjwt"
 
 JWT_EXPIRES_IN=8h
+
+npm i 
+
+npm prisma init 
+
+npm prisma generate 
+
+npm prisma migrate dev --name init 
+
+npm run seed 
+
+npm run start:dev 

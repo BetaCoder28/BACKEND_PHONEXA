@@ -17,6 +17,18 @@ model User {
 
 }
 
+// alfabeto_aeronautico - Tabla para el alfabeto OACI/OTAN
+model Alphabet {
+  idAlphabet     Int    @id @default(autoincrement()) @map("idAlpabet")
+  letter         String @unique 
+  code           String @unique      
+  pronunciation  String?           
+  audioUrl       String?
+  iconUrl        String?
+
+  @@map("alphabet")
+}
+
 // flashCards - Tabla principal para las flashcards
 model FlashCard {
   idFlashCards   Int       @id @default(autoincrement()) @map("idFlashCards")
