@@ -2,212 +2,181 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Datos estandarizados del alfabeto aeronáutico (OACI/OTAN)
-const alfabetoData = [
-  {
-    letter: 'A',
-    code: 'Alfa',
-    pronunciation: 'AL-FAH',
-    audioUrl: '/audios/alfa.mp3',
-    iconUrl: '/icons/A.png',
-  },
-  {
-    letter: 'B',
-    code: 'Bravo',
-    pronunciation: 'BRAH-VOH',
-    audioUrl: '/audios/bravo.mp3',
-    iconUrl: '/icons/B.png',
-  },
-  {
-    letter: 'C',
-    code: 'Charlie',
-    pronunciation: 'CHAR-LEE',
-    audioUrl: '/audios/charlie.mp3',
-    iconUrl: '/icons/C.png',
-  },
-  {
-    letter: 'D',
-    code: 'Delta',
-    pronunciation: 'DELL-TAH',
-    audioUrl: '/audios/delta.mp3',
-    iconUrl: '/icons/D.png',
-  },
-  {
-    letter: 'E',
-    code: 'Echo',
-    pronunciation: 'EH-KHO',
-    audioUrl: '/audios/echo.mp3',
-    iconUrl: '/icons/E.png',
-  },
-  {
-    letter: 'F',
-    code: 'Foxtrot',
-    pronunciation: 'FOKS-TROT',
-    audioUrl: '/audios/foxtrot.mp3',
-    iconUrl: '/icons/F.png',
-  },
-  {
-    letter: 'G',
-    code: 'Golf',
-    pronunciation: 'GOLF',
-    audioUrl: '/audios/golf.mp3',
-    iconUrl: '/icons/G.png',
-  },
-  {
-    letter: 'H',
-    code: 'Hotel',
-    pronunciation: 'HOH-TEL',
-    audioUrl: '/audios/hotel.mp3',
-    iconUrl: '/icons/H.png',
-  },
-  {
-    letter: 'I',
-    code: 'India',
-    pronunciation: 'IN-DEE-AH',
-    audioUrl: '/audios/india.mp3',
-    iconUrl: '/icons/I.png',
-  },
-  {
-    letter: 'J',
-    code: 'Juliett',
-    pronunciation: 'YÚ-LI-ET',
-    audioUrl: '/audios/juliett.mp3',
-    iconUrl: '/icons/J.png',
-  },
-  {
-    letter: 'K',
-    code: 'Kilo',
-    pronunciation: 'KÍ-LOH',
-    audioUrl: '/audios/kilo.mp3',
-    iconUrl: '/icons/K.png',
-  },
-  {
-    letter: 'L',
-    code: 'Lima',
-    pronunciation: 'LÍ-MAH',
-    audioUrl: '/audios/lima.mp3',
-    iconUrl: '/icons/L.png',
-  },
-  {
-    letter: 'M',
-    code: 'Mike',
-    pronunciation: 'MAIK',
-    audioUrl: '/audios/mike.mp3',
-    iconUrl: '/icons/M.png',
-  },
-  {
-    letter: 'N',
-    code: 'November',
-    pronunciation: 'NOH-VEM-BER',
-    audioUrl: '/audios/november.mp3',
-    iconUrl: '/icons/N.png',
-  },
-  {
-    letter: 'O',
-    code: 'Oscar',
-    pronunciation: 'OS-CAH',
-    audioUrl: '/audios/oscar.mp3',
-    iconUrl: '/icons/O.png',
-  },
-  {
-    letter: 'P',
-    code: 'Papa',
-    pronunciation: 'PAH-PAH',
-    audioUrl: '/audios/papa.mp3',
-    iconUrl: '/icons/P.png',
-  },
-  {
-    letter: 'Q',
-    code: 'Quebec',
-    pronunciation: 'KEH-BEK',
-    audioUrl: '/audios/quebec.mp3',
-    iconUrl: '/icons/Q.png',
-  },
-  {
-    letter: 'R',
-    code: 'Romeo',
-    pronunciation: 'ROH-MI-OH',
-    audioUrl: '/audios/romeo.mp3',
-    iconUrl: '/icons/R.png',
-  },
-  {
-    letter: 'S',
-    code: 'Sierra',
-    pronunciation: 'SEE-AIR-RAH',
-    audioUrl: '/audios/sierra.mp3',
-    iconUrl: '/icons/S.png',
-  },
-  {
-    letter: 'T',
-    code: 'Tango',
-    pronunciation: 'TANG-GO',
-    audioUrl: '/audios/tango.mp3',
-    iconUrl: '/icons/T.png',
-  },
-  {
-    letter: 'U',
-    code: 'Uniform',
-    pronunciation: 'YÚ-NI-FORM',
-    audioUrl: '/audios/uniform.mp3',
-    iconUrl: '/icons/U.png',
-  },
-  {
-    letter: 'V',
-    code: 'Victor',
-    pronunciation: 'VÍK-TAH',
-    audioUrl: '/audios/victor.mp3',
-    iconUrl: '/icons/V.png',
-  },
-  {
-    letter: 'W',
-    code: 'Whiskey',
-    pronunciation: 'WIS-KI',
-    audioUrl: '/audios/whiskey.mp3',
-    iconUrl: '/icons/W.png',
-  },
-  {
-    letter: 'X',
-    code: 'X-ray',
-    pronunciation: 'EKS-REI',
-    audioUrl: '/audios/xray.mp3',
-    iconUrl: '/icons/X.png',
-  },
-  {
-    letter: 'Y',
-    code: 'Yankee',
-    pronunciation: 'YANG-KI',
-    audioUrl: '/audios/yankee.mp3',
-    iconUrl: '/icons/Y.png',
-  },
-  {
-    letter: 'Z',
-    code: 'Zulu',
-    pronunciation: 'ZÚ-LU',
-    audioUrl: '/audios/zulu.mp3',
-    iconUrl: '/icons/Z.png',
-  },
-];
-
 async function main() {
-  console.log('Iniciando siembra de datos...');
-  //Posible limpiador de la base de datos en dado caso de error.
-  //await prisma.alphabet.deleteMany({});
+  console.log('🌱 Iniciando seed de datos...');
 
-  for (const data of alfabetoData) {
-    await prisma.alphabet.upsert({
-      where: { letter: data.letter },
-      update: data,
-      create: data,
+  // Seed de tarjetas del alfabeto aeronáutico
+  const aeronauticalAlphabetCards = [
+    { text: 'Alpha', pronunciation: 'Al-fa' },
+    { text: 'Bravo', pronunciation: 'Bra-vo' },
+    { text: 'Charlie', pronunciation: 'Char-li' },
+    { text: 'Delta', pronunciation: 'Del-ta' },
+    { text: 'Echo', pronunciation: 'Ek-o' },
+    { text: 'Foxtrot', pronunciation: 'Foks-trot' },
+    { text: 'Golf', pronunciation: 'Golf' },
+    { text: 'Hotel', pronunciation: 'Ho-tel' },
+    { text: 'India', pronunciation: 'In-di-a' },
+    { text: 'Juliet', pronunciation: 'Dzu-li-et' },
+    { text: 'Kilo', pronunciation: 'Ki-lo' },
+    { text: 'Lima', pronunciation: 'Li-ma' },
+    { text: 'Mike', pronunciation: 'Mai-k' },
+    { text: 'November', pronunciation: 'No-vem-ber' },
+    { text: 'Oscar', pronunciation: 'Os-kar' },
+    { text: 'Papa', pronunciation: 'Pa-pa' },
+    { text: 'Quebec', pronunciation: 'Ke-bek' },
+    { text: 'Romeo', pronunciation: 'Ro-mi-o' },
+    { text: 'Sierra', pronunciation: 'Si-er-ra' },
+    { text: 'Tango', pronunciation: 'Tang-go' },
+    { text: 'Uniform', pronunciation: 'Yu-ni-form' },
+    { text: 'Victor', pronunciation: 'Vik-tor' },
+    { text: 'Whiskey', pronunciation: 'Wis-ki' },
+    { text: 'X-ray', pronunciation: 'Eks-rei' },
+    { text: 'Yankee', pronunciation: 'Yang-ki' },
+    { text: 'Zulu', pronunciation: 'Zu-lu' },
+  ];
+
+  console.log(' Creando tarjetas del alfabeto aeronáutico...');
+  for (const card of aeronauticalAlphabetCards) {
+    const existingCard = await prisma.aeronauticalAlphabetCard.findFirst({
+      where: { text: card.text },
     });
+
+    if (!existingCard) {
+      await prisma.aeronauticalAlphabetCard.create({
+        data: card,
+      });
+    }
   }
-  console.log(
-    '✅ Siembra del Alfabeto Aeronáutico completada. 26 entradas insertadas/actualizadas.',
-  );
+  console.log(' Tarjetas del alfabeto aeronáutico creadas');
+
+  // Seed de preguntas de quiz
+  const quizQuestions = [
+    {
+      question: '¿Cuál es la palabra del alfabeto aeronáutico que se pronuncia como "Al-fa"?',
+      answer: 'Alpha',
+    },
+    {
+      question: '¿Qué letra corresponde a la pronunciación "Bra-vo"?',
+      answer: 'Bravo',
+    },
+    {
+      question: '¿Cuál es la palabra que se pronuncia "Char-li"?',
+      answer: 'Charlie',
+    },
+    {
+      question: '¿Qué letra del alfabeto aeronáutico suena como "Del-ta"?',
+      answer: 'Delta',
+    },
+    {
+      question: '¿Cuál es la pronunciación correcta para "Echo"?',
+      answer: 'Ek-o',
+    },
+    {
+      question: '¿Qué palabra del alfabeto se pronuncia "Foks-trot"?',
+      answer: 'Foxtrot',
+    },
+    {
+      question: '¿Cuál es la letra que corresponde a "Golf"?',
+      answer: 'Golf',
+    },
+    {
+      question: '¿Qué palabra se pronuncia "Ho-tel"?',
+      answer: 'Hotel',
+    },
+    {
+      question: '¿Cuál es la pronunciación de "India"?',
+      answer: 'In-di-a',
+    },
+    {
+      question: '¿Qué letra suena como "Dzu-li-et"?',
+      answer: 'Juliet',
+    },
+    {
+      question: '¿Cuál es la palabra que se pronuncia "Ki-lo"?',
+      answer: 'Kilo',
+    },
+    {
+      question: '¿Qué letra corresponde a "Li-ma"?',
+      answer: 'Lima',
+    },
+    {
+      question: '¿Cuál es la pronunciación correcta para "Mike"?',
+      answer: 'Mai-k',
+    },
+    {
+      question: '¿Qué palabra del alfabeto se pronuncia "No-vem-ber"?',
+      answer: 'November',
+    },
+    {
+      question: '¿Cuál es la letra que suena como "Os-kar"?',
+      answer: 'Oscar',
+    },
+    {
+      question: '¿Qué palabra se pronuncia "Pa-pa"?',
+      answer: 'Papa',
+    },
+    {
+      question: '¿Cuál es la pronunciación de "Quebec"?',
+      answer: 'Ke-bek',
+    },
+    {
+      question: '¿Qué letra corresponde a "Ro-mi-o"?',
+      answer: 'Romeo',
+    },
+    {
+      question: '¿Cuál es la palabra que se pronuncia "Si-er-ra"?',
+      answer: 'Sierra',
+    },
+    {
+      question: '¿Qué letra suena como "Tang-go"?',
+      answer: 'Tango',
+    },
+    {
+      question: '¿Cuál es la pronunciación correcta para "Uniform"?',
+      answer: 'Yu-ni-form',
+    },
+    {
+      question: '¿Qué palabra del alfabeto se pronuncia "Vik-tor"?',
+      answer: 'Victor',
+    },
+    {
+      question: '¿Cuál es la letra que corresponde a "Wis-ki"?',
+      answer: 'Whiskey',
+    },
+    {
+      question: '¿Qué palabra suena como "Eks-rei"?',
+      answer: 'X-ray',
+    },
+    {
+      question: '¿Cuál es la pronunciación de "Yankee"?',
+      answer: 'Yang-ki',
+    },
+    {
+      question: '¿Qué letra se pronuncia "Zu-lu"?',
+      answer: 'Zulu',
+    },
+  ];
+
+  console.log(' Creando preguntas de quiz...');
+  for (const quiz of quizQuestions) {
+    const existingQuiz = await prisma.quizz.findFirst({
+      where: { question: quiz.question },
+    });
+
+    if (!existingQuiz) {
+      await prisma.quizz.create({
+        data: quiz,
+      });
+    }
+  }
+  console.log('Preguntas de quiz creadas');
+
+  console.log(' Seed completado exitosamente!');
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error durante la siembra de datos:', e);
+    console.error(' Error durante el seed:', e);
     process.exit(1);
   })
   .finally(async () => {
