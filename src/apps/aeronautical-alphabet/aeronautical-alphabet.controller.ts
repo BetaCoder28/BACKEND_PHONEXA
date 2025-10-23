@@ -15,11 +15,14 @@ import { CreateAeronauticalAlphabetCardDto } from './dto/create-aeronautical-alp
 import { UpdateAeronauticalAlphabetCardDto } from './dto/update-aeronautical-alphabet-card.dto';
 import { QuizAnswerDto } from './dto/quiz-answer.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { Public } from 'src/middlewares/auth/public.decorator';
 
 @ApiTags('Alfabeto Aeronáutico')
 @Controller('aeronautical-alphabet')
 export class AeronauticalAlphabetController {
-  constructor(private readonly aeronauticalAlphabetService: AeronauticalAlphabetService) {}
+  constructor(
+    private readonly aeronauticalAlphabetService: AeronauticalAlphabetService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Crear una nueva tarjeta del alfabeto aeronáutico' })
@@ -39,7 +42,10 @@ export class AeronauticalAlphabetController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Obtener todas las tarjetas del alfabeto aeronáutico' })
+  @Public()
+  @ApiOperation({
+    summary: 'Obtener todas las tarjetas del alfabeto aeronáutico',
+  })
   async findAll() {
     try {
       const result = await this.aeronauticalAlphabetService.findAll();
@@ -56,12 +62,16 @@ export class AeronauticalAlphabetController {
   }
 
   @Get(':id')
+  @Public()
   @ApiOperation({ summary: 'Obtener una tarjeta por ID' })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     try {
       const result = await this.aeronauticalAlphabetService.findOne(id);
       if (!result.success) {
-        throw new HttpException(result.message || 'Tarjeta no encontrada', HttpStatus.NOT_FOUND);
+        throw new HttpException(
+          result.message || 'Tarjeta no encontrada',
+          HttpStatus.NOT_FOUND,
+        );
       }
       return result;
     } catch (error) {
@@ -85,7 +95,10 @@ export class AeronauticalAlphabetController {
     @Body() updateDto: UpdateAeronauticalAlphabetCardDto,
   ) {
     try {
-      const result = await this.aeronauticalAlphabetService.update(id, updateDto);
+      const result = await this.aeronauticalAlphabetService.update(
+        id,
+        updateDto,
+      );
       return result;
     } catch (error) {
       throw new HttpException(
@@ -116,12 +129,16 @@ export class AeronauticalAlphabetController {
   }
 
   @Get('quiz/random')
+  @Public()
   @ApiOperation({ summary: 'Obtener una pregunta de quiz aleatoria' })
   async getRandomQuiz() {
     try {
       const result = await this.aeronauticalAlphabetService.getRandomQuiz();
       if (!result.success) {
-        throw new HttpException(result.message || 'No hay tarjetas disponibles', HttpStatus.NOT_FOUND);
+        throw new HttpException(
+          result.message || 'No hay tarjetas disponibles',
+          HttpStatus.NOT_FOUND,
+        );
       }
       return result;
     } catch (error) {
@@ -145,9 +162,15 @@ export class AeronauticalAlphabetController {
     @Body() quizAnswerDto: QuizAnswerDto,
   ) {
     try {
-      const result = await this.aeronauticalAlphabetService.checkQuizAnswer(id, quizAnswerDto.answer);
+      const result = await this.aeronauticalAlphabetService.checkQuizAnswer(
+        id,
+        quizAnswerDto.answer,
+      );
       if (!result.success) {
-        throw new HttpException(result.message || 'Tarjeta no encontrada', HttpStatus.NOT_FOUND);
+        throw new HttpException(
+          result.message || 'Tarjeta no encontrada',
+          HttpStatus.NOT_FOUND,
+        );
       }
       return result;
     } catch (error) {
