@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/config/prisma/prisma.service';
 import { CreateAeronauticalAlphabetCardDto } from './dto/create-aeronautical-alphabet-card.dto';
 import { UpdateAeronauticalAlphabetCardDto } from './dto/update-aeronautical-alphabet-card.dto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class AeronauticalAlphabetService {
@@ -106,12 +108,18 @@ export class AeronauticalAlphabetService {
 
       // Generar opciones (la correcta + 3 incorrectas)
       const correctAnswer = selectedCard.text;
-      const allTexts = cards.map(card => card.text);
-      const incorrectOptions = allTexts.filter(text => text !== correctAnswer);
+      const allTexts = cards.map((card) => card.text);
+      const incorrectOptions = allTexts.filter(
+        (text) => text !== correctAnswer,
+      );
 
       // Mezclar las opciones incorrectas y tomar 3
-      const shuffledIncorrect = incorrectOptions.sort(() => 0.5 - Math.random());
-      const options = [correctAnswer, ...shuffledIncorrect.slice(0, 3)].sort(() => 0.5 - Math.random());
+      const shuffledIncorrect = incorrectOptions.sort(
+        () => 0.5 - Math.random(),
+      );
+      const options = [correctAnswer, ...shuffledIncorrect.slice(0, 3)].sort(
+        () => 0.5 - Math.random(),
+      );
 
       return {
         success: true,
@@ -154,6 +162,66 @@ export class AeronauticalAlphabetService {
       };
     } catch (error) {
       throw new Error(`Error al verificar respuesta: ${error.message}`);
+    }
+  }
+
+  async createWithFiles(
+    createDto: CreateAeronauticalAlphabetCardDto,
+    imageFile?: any,
+    audioFile?: any,
+  ) {
+    try {
+      let imageUrl: string | undefined;
+      let audioUrl: string | undefined;
+
+      // Crear directorios si no existen
+      const publicDir = path.join(__dirname, '..', '..', 'public');
+      const iconsDir = path.join(publicDir, 'icons');
+      const audiosDir = path.join(publicDir, 'audios');
+
+      if (!fs.existsSync(iconsDir)) {
+        fs.mkdirSync(iconsDir, { recursive: true });
+      }
+      if (!fs.existsSync(audiosDir)) {
+        fs.mkdirSync(audiosDir, { recursive: true });
+      }
+
+      // Procesar archivo de imagen
+      if (imageFile) {
+        const imageFileName = `${Date.now()}-image-${imageFile.originalname}`;
+        const imageFilePath = path.join(iconsDir, imageFileName);
+        fs.writeFileSync(imageFilePath, imageFile.buffer);
+        const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+        imageUrl = `${baseUrl}/icons/${imageFileName}`;
+      }
+
+      // Procesar archivo de audio
+      if (audioFile) {
+        const audioFileName = `${Date.now()}-audio-${audioFile.originalname}`;
+        const audioFilePath = path.join(audiosDir, audioFileName);
+        fs.writeFileSync(audioFilePath, audioFile.buffer);
+        const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+        audioUrl = `${baseUrl}/audios/${audioFileName}`;
+      }
+
+      // Crear la tarjeta con las URLs generadas
+      const cardData = {
+        ...createDto,
+        imageUrl: imageUrl || createDto.imageUrl,
+        audioUrl: audioUrl || createDto.audioUrl,
+      };
+
+      const card = await this.prisma.aeronauticalAlphabetCard.create({
+        data: cardData,
+      });
+
+      return {
+        success: true,
+        data: card,
+        message: 'Tarjeta creada correctamente',
+      };
+    } catch (error) {
+      throw new Error(`Error al crear tarjeta con archivos: ${error.message}`);
     }
   }
 }

@@ -77,6 +77,7 @@ model AeronauticalAlphabetCard {
   id                Int     @id @default(autoincrement()) @map("id")
   text              String  @db.VarChar(255) // Palabra del alfabeto
   imageUrl          String? @db.VarChar(2048) // URL de la imagen
+  audioUrl          String? @db.VarChar(2048) // URL del audio
   pronunciation     String? @db.VarChar(255) // Manera de pronunciarlo
 
   @@map("aeronauticalAlphabetCards")
