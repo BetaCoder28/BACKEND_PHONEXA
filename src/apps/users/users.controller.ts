@@ -55,6 +55,7 @@ export class UsersController {
   }
 
   @Get()
+  @Public()
   @ApiOperation({
     summary: 'Obtener la lista de todos los usuarios',
   })
@@ -78,6 +79,7 @@ export class UsersController {
 
   @ApiCookieAuth()
   @Get(':idUser')
+  @Public()
   @ApiOperation({ summary: 'Obtener usuario por ID (requiere autenticación)' })
   async getUserById(@Param('idUser', ParseIntPipe) idUser: number) {
     try {

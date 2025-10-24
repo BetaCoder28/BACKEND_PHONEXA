@@ -32,17 +32,25 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('API - Ecommerce (Vistella)')
-    .setDescription('API que incluye las funcionalidades para el ecommerce de Vistella. La autenticación se maneja mediante cookies HTTP-only.')
+    .setDescription(
+      'API que incluye las funcionalidades para el ecommerce de Vistella. La autenticación se maneja mediante cookies HTTP-only.',
+    )
     .setVersion('1.0')
     .addBearerAuth() // Para compatibilidad con herramientas que usen Bearer Token
     .addSecurity('cookieAuth', {
       type: 'http',
       scheme: 'cookie',
-      description: 'Autenticación mediante cookie HTTP-only. El token JWT se envía automáticamente en las cookies cuando el usuario está logueado.'
+      description:
+        'Autenticación mediante cookie HTTP-only. El token JWT se envía automáticamente en las cookies cuando el usuario está logueado.',
     })
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('api', app, documentFactory, {
+    swaggerOptions: {
+      // Esto le indica a Swagger que incluya cookies/credenciales en las solicitudes fetch/XHR
+      withCredentials: true, // ⬅️ ¡Añade esta opción!
+    },
+  });
 
   app.useGlobalFilters(new PrismaClientExceptionFilter());
 
