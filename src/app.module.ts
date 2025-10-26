@@ -9,20 +9,19 @@ import { AeronauticalAlphabetModule } from './apps/aeronautical-alphabet/aeronau
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
+      rootPath: join(__dirname, '..', '..', 'public'),
     }),
 
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public', 'audios'),
+      rootPath: join(__dirname, '..', '..', 'public', 'audios'),
       serveRoot: '/audios',
     }),
 
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public', 'icons'),
+      rootPath: join(__dirname, '..', '..', 'public', 'icons'),
       serveRoot: '/icons',
     }),
 

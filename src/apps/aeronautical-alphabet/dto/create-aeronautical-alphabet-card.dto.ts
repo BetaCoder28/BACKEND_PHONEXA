@@ -5,7 +5,10 @@ export class CreateAeronauticalAlphabetCardDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  @ApiProperty({ example: 'Alpha', description: 'Palabra del alfabeto aeronáutico' })
+  @ApiProperty({
+    example: 'Alpha',
+    description: 'Palabra del alfabeto aeronáutico',
+  })
   text: string;
 
   @IsString()
@@ -17,6 +20,16 @@ export class CreateAeronauticalAlphabetCardDto {
     required: false,
   })
   imageUrl?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(2048)
+  @ApiProperty({
+    example: 'https://example.com/audio.mp3',
+    description: 'URL del audio',
+    required: false,
+  })
+  audioUrl?: string;
 
   @IsString()
   @IsOptional()

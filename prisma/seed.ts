@@ -5,34 +5,170 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Iniciando seed de datos...');
 
+  // Limpiar datos existentes
+  console.log('🧹 Limpiando datos existentes...');
+  await prisma.quizz.deleteMany();
+  await prisma.aeronauticalAlphabetCard.deleteMany();
+  console.log(' Datos limpiados');
+
   // Seed de tarjetas del alfabeto aeronáutico
   const aeronauticalAlphabetCards = [
-    { text: 'Alpha', pronunciation: 'Al-fa' },
-    { text: 'Bravo', pronunciation: 'Bra-vo' },
-    { text: 'Charlie', pronunciation: 'Char-li' },
-    { text: 'Delta', pronunciation: 'Del-ta' },
-    { text: 'Echo', pronunciation: 'Ek-o' },
-    { text: 'Foxtrot', pronunciation: 'Foks-trot' },
-    { text: 'Golf', pronunciation: 'Golf' },
-    { text: 'Hotel', pronunciation: 'Ho-tel' },
-    { text: 'India', pronunciation: 'In-di-a' },
-    { text: 'Juliet', pronunciation: 'Dzu-li-et' },
-    { text: 'Kilo', pronunciation: 'Ki-lo' },
-    { text: 'Lima', pronunciation: 'Li-ma' },
-    { text: 'Mike', pronunciation: 'Mai-k' },
-    { text: 'November', pronunciation: 'No-vem-ber' },
-    { text: 'Oscar', pronunciation: 'Os-kar' },
-    { text: 'Papa', pronunciation: 'Pa-pa' },
-    { text: 'Quebec', pronunciation: 'Ke-bek' },
-    { text: 'Romeo', pronunciation: 'Ro-mi-o' },
-    { text: 'Sierra', pronunciation: 'Si-er-ra' },
-    { text: 'Tango', pronunciation: 'Tang-go' },
-    { text: 'Uniform', pronunciation: 'Yu-ni-form' },
-    { text: 'Victor', pronunciation: 'Vik-tor' },
-    { text: 'Whiskey', pronunciation: 'Wis-ki' },
-    { text: 'X-ray', pronunciation: 'Eks-rei' },
-    { text: 'Yankee', pronunciation: 'Yang-ki' },
-    { text: 'Zulu', pronunciation: 'Zu-lu' },
+    {
+      text: 'Alpha',
+      pronunciation: 'Al-fa',
+      imageUrl: 'http://localhost:3000/icons/alpha.png',
+      audioUrl: 'http://localhost:3000/audios/alpha.mp3',
+    },
+    {
+      text: 'Bravo',
+      pronunciation: 'Bra-vo',
+      imageUrl: 'http://localhost:3000/icons/bravo.png',
+      audioUrl: 'http://localhost:3000/audios/bravo.mp3',
+    },
+    {
+      text: 'Charlie',
+      pronunciation: 'Char-li',
+      imageUrl: 'http://localhost:3000/icons/charlie.png',
+      audioUrl: 'http://localhost:3000/audios/charlie.mp3',
+    },
+    {
+      text: 'Delta',
+      pronunciation: 'Del-ta',
+      imageUrl: 'http://localhost:3000/icons/delta.png',
+      audioUrl: 'http://localhost:3000/audios/delta.mp3',
+    },
+    {
+      text: 'Echo',
+      pronunciation: 'Ek-o',
+      imageUrl: 'http://localhost:3000/icons/echo.png',
+      audioUrl: 'http://localhost:3000/audios/echo.mp3',
+    },
+    {
+      text: 'Foxtrot',
+      pronunciation: 'Foks-trot',
+      imageUrl: 'http://localhost:3000/icons/foxtrot.png',
+      audioUrl: 'http://localhost:3000/audios/foxtrot.mp3',
+    },
+    {
+      text: 'Golf',
+      pronunciation: 'Golf',
+      imageUrl: 'http://localhost:3000/icons/golf.png',
+      audioUrl: 'http://localhost:3000/audios/golf.mp3',
+    },
+    {
+      text: 'Hotel',
+      pronunciation: 'Ho-tel',
+      imageUrl: 'http://localhost:3000/icons/hotel.png',
+      audioUrl: 'http://localhost:3000/audios/hotel.mp3',
+    },
+    {
+      text: 'India',
+      pronunciation: 'In-di-a',
+      imageUrl: 'http://localhost:3000/icons/india.png',
+      audioUrl: 'http://localhost:3000/audios/india.mp3',
+    },
+    {
+      text: 'Juliet',
+      pronunciation: 'Dzu-li-et',
+      imageUrl: 'http://localhost:3000/icons/juliet.png',
+      audioUrl: 'http://localhost:3000/audios/juliet.mp3',
+    },
+    {
+      text: 'Kilo',
+      pronunciation: 'Ki-lo',
+      imageUrl: 'http://localhost:3000/icons/kilo.png',
+      audioUrl: 'http://localhost:3000/audios/kilo.mp3',
+    },
+    {
+      text: 'Lima',
+      pronunciation: 'Li-ma',
+      imageUrl: 'http://localhost:3000/icons/lima.png',
+      audioUrl: 'http://localhost:3000/audios/lima.mp3',
+    },
+    {
+      text: 'Mike',
+      pronunciation: 'Mai-k',
+      imageUrl: 'http://localhost:3000/icons/mike.png',
+      audioUrl: 'http://localhost:3000/audios/mike.mp3',
+    },
+    {
+      text: 'November',
+      pronunciation: 'No-vem-ber',
+      imageUrl: 'http://localhost:3000/icons/november.png',
+      audioUrl: 'http://localhost:3000/audios/november.mp3',
+    },
+    {
+      text: 'Oscar',
+      pronunciation: 'Os-kar',
+      imageUrl: 'http://localhost:3000/icons/oscar.png',
+      audioUrl: 'http://localhost:3000/audios/oscar.mp3',
+    },
+    {
+      text: 'Papa',
+      pronunciation: 'Pa-pa',
+      imageUrl: 'http://localhost:3000/icons/papa.png',
+      audioUrl: 'http://localhost:3000/audios/papa.mp3',
+    },
+    {
+      text: 'Quebec',
+      pronunciation: 'Ke-bek',
+      imageUrl: 'http://localhost:3000/icons/quebec.png',
+      audioUrl: 'http://localhost:3000/audios/quebec.mp3',
+    },
+    {
+      text: 'Romeo',
+      pronunciation: 'Ro-mi-o',
+      imageUrl: 'http://localhost:3000/icons/romeo.png',
+      audioUrl: 'http://localhost:3000/audios/romeo.mp3',
+    },
+    {
+      text: 'Sierra',
+      pronunciation: 'Si-er-ra',
+      imageUrl: 'http://localhost:3000/icons/sierra.png',
+      audioUrl: 'http://localhost:3000/audios/sierra.mp3',
+    },
+    {
+      text: 'Tango',
+      pronunciation: 'Tang-go',
+      imageUrl: 'http://localhost:3000/icons/tango.png',
+      audioUrl: 'http://localhost:3000/audios/tango.mp3',
+    },
+    {
+      text: 'Uniform',
+      pronunciation: 'Yu-ni-form',
+      imageUrl: 'http://localhost:3000/icons/uniform.png',
+      audioUrl: 'http://localhost:3000/audios/uniform.mp3',
+    },
+    {
+      text: 'Victor',
+      pronunciation: 'Vik-tor',
+      imageUrl: 'http://localhost:3000/icons/victor.png',
+      audioUrl: 'http://localhost:3000/audios/victor.mp3',
+    },
+    {
+      text: 'Whiskey',
+      pronunciation: 'Wis-ki',
+      imageUrl: 'http://localhost:3000/icons/whiskey.png',
+      audioUrl: 'http://localhost:3000/audios/whiskey.mp3',
+    },
+    {
+      text: 'X-ray',
+      pronunciation: 'Eks-rei',
+      imageUrl: 'http://localhost:3000/icons/x-ray.png',
+      audioUrl: 'http://localhost:3000/audios/x-ray.mp3',
+    },
+    {
+      text: 'Yankee',
+      pronunciation: 'Yang-ki',
+      imageUrl: 'http://localhost:3000/icons/yankee.png',
+      audioUrl: 'http://localhost:3000/audios/yankee.mp3',
+    },
+    {
+      text: 'Zulu',
+      pronunciation: 'Zu-lu',
+      imageUrl: 'http://localhost:3000/icons/zulu.png',
+      audioUrl: 'http://localhost:3000/audios/zulu.mp3',
+    },
   ];
 
   console.log(' Creando tarjetas del alfabeto aeronáutico...');
@@ -52,7 +188,8 @@ async function main() {
   // Seed de preguntas de quiz
   const quizQuestions = [
     {
-      question: '¿Cuál es la palabra del alfabeto aeronáutico que se pronuncia como "Al-fa"?',
+      question:
+        '¿Cuál es la palabra del alfabeto aeronáutico que se pronuncia como "Al-fa"?',
       answer: 'Alpha',
     },
     {
