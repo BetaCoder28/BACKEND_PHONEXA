@@ -97,7 +97,6 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
-
 DATABASE_URL = "postgresql://postgres:Programador27@localhost:5432/appmovil?schema=public"
 
 NODE_ENV= "production"
@@ -106,14 +105,14 @@ JWT_SECRET= "unaclavemuylargayseguraparaeltokenjwt"
 
 JWT_EXPIRES_IN=8h
 
-npm i 
+npm i
 
-npm prisma init 
+npm prisma init
 
-npm prisma generate 
+npm prisma generate
 
-npm prisma migrate dev --name init 
+npm prisma migrate dev --name init
 
-npm run seed 
+npm run seed
 
-npm run start:dev 
+npm run start:dev
