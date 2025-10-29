@@ -2,12 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
 import * as bodyParser from 'body-parser'; //webhook
 import cookieParser from 'cookie-parser'; // cookies (el httpOnly)
 import { PrismaClientExceptionFilter } from './exception.filter';
 import { JwtAuthGuard } from './middlewares/auth/jwt-auth.guard';
 import { Reflector } from '@nestjs/core';
+import * as express from 'express';
+import { resolve } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,7 @@ async function bootstrap() {
   // Configurar cookie-parser ANTES de otros middlewares
   app.use(cookieParser());
 
+  app.use('/public', express.static(resolve(process.cwd(), 'public')));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

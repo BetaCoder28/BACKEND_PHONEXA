@@ -107,12 +107,12 @@ JWT_EXPIRES_IN=8h
 
 npm i
 
-npm prisma init
+npx prisma init
 
-npm prisma generate
+npx prisma generate
 
-npm prisma migrate dev --name init
+npx prisma migrate dev --name init
 
-npm run seed
+npx prisma seed
 
 npm run start:dev
