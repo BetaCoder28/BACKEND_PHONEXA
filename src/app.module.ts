@@ -8,6 +8,7 @@ import { AuthModule } from './middlewares/auth/auth.module';
 import { AeronauticalAlphabetModule } from './apps/aeronautical-alphabet/aeronautical-alphabet.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { PoliticasModule } from './politicas/politicas.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { join } from 'path';
     LoginModule,
     AuthModule,
     AeronauticalAlphabetModule,
+    PoliticasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
